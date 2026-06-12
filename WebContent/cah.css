@@ -573,6 +573,15 @@ span.admin {
   margin-top: 10px !important;
 }
 
+.confirm_card:disabled,
+.confirm_card[disabled] {
+  background: linear-gradient(135deg, #555, #444) !important;
+  color: #999 !important;
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
 #start_game,
 #stop_game {
   background: #332D59 !important;

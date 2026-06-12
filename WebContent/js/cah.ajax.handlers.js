@@ -214,16 +214,19 @@ cah.ajax.ErrorHandlers[cah.$.AjaxOperation.LEAVE_GAME] = function(data, req) {
 };
 
 cah.ajax.ErrorHandlers[cah.$.AjaxOperation.START_GAME] = function(data, req) {
+  $("#start_game").removeAttr("disabled");
   if (data[cah.$.AjaxResponse.ERROR_CODE] == cah.$.ErrorCode.NOT_ENOUGH_CARDS) {
-    var msg = "With current settings, the game requires "
-        + data[cah.$.ErrorInformation.BLACK_CARDS_REQUIRED] + " black cards and "
-        + data[cah.$.ErrorInformation.WHITE_CARDS_REQUIRED] + " white cards, but only has "
-        + data[cah.$.ErrorInformation.BLACK_CARDS_PRESENT] + " black cards and "
-        + data[cah.$.ErrorInformation.WHITE_CARDS_PRESENT] + " white cards.";
-
+    var msg = "O jogo precisa de "
+        + data[cah.$.ErrorInformation.BLACK_CARDS_REQUIRED] + " cartas pretas e "
+        + data[cah.$.ErrorInformation.WHITE_CARDS_REQUIRED] + " cartas brancas, mas só tem "
+        + data[cah.$.ErrorInformation.BLACK_CARDS_PRESENT] + " pretas e "
+        + data[cah.$.ErrorInformation.WHITE_CARDS_PRESENT] + " brancas. Selecione mais conjuntos de cartas.";
+    alert(msg);
     cah.log.status_with_game(req[cah.$.AjaxRequest.GAME_ID], msg, "error");
   } else {
-    cah.log.error(cah.$.ErrorCode_msg[data[cah.$.AjaxResponse.ERROR_CODE]]);
+    var errMsg = cah.$.ErrorCode_msg[data[cah.$.AjaxResponse.ERROR_CODE]];
+    alert("Erro ao iniciar jogo: " + errMsg);
+    cah.log.error(errMsg);
   }
 };
 

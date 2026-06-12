@@ -1240,7 +1240,12 @@ cah.Game.prototype.leaveGameClick_ = function () {
  * @private
  */
 cah.Game.prototype.startGameClick_ = function () {
-  // TODO make the button go disabled
+  var selectedSets = $(".card_set:checked", this.optionsElement_).length;
+  if (selectedSets === 0) {
+    alert("Selecione pelo menos um conjunto de cartas antes de iniciar o jogo.");
+    return;
+  }
+  $("#start_game").attr("disabled", "disabled");
   cah.Ajax.build(cah.$.AjaxOperation.START_GAME).withGameId(this.id_).run();
 };
 
