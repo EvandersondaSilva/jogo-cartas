@@ -525,7 +525,7 @@
                                     checked="checked" /><span> Animate Cards</span></label>
                                 <div class="game_message" role="status">Waiting for server...</div>
                               </div>
-                              <div style="width:100%; height:472px;">
+                              <div style="width:100%; flex:1; min-height:0; display:flex; flex-direction:column;">
                                 <div class="game_main_area">
                                   <div class="game_left_side">
                                     <div class="game_black_card_wrapper">
@@ -533,8 +533,6 @@
                                           class="game_black_card_round_indicator">this round is</span>:</span>
                                       <div class="game_black_card" tabindex="0"></div>
                                     </div>
-                                    <input type="button" class="confirm_card btn-sniffer-primary"
-                                      value="Confirm Selection" />
                                   </div>
                                   <div class="game_right_side hide">
                                     <div class="game_right_side_box game_white_card_wrapper">
@@ -549,8 +547,12 @@
                                   <div class="game_options"></div>
                                 </div>
                                 <div class="game_hand">
-                                  <div class="game_hand_filter hide"><span class="game_hand_filter_text"></span></div>
-                                  <span class="your_hand" tabindex="0">Your Hand</span>
+                                  <div class="game_hand_left">
+                                    <span class="your_hand" tabindex="0">Your Hand</span>
+                                    <div class="game_hand_filter hide"><span class="game_hand_filter_text"></span></div>
+                                    <input type="button" class="confirm_card btn-sniffer-primary"
+                                      value="Confirm Selection" />
+                                  </div>
                                   <div class="game_hand_cards"></div>
                                 </div>
                               </div>

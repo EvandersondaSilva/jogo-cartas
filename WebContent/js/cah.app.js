@@ -402,28 +402,8 @@ cah.getCookie = function (name) {
  * This was tested extensively in Chrome. It may not be pixel-perfect in other browsers.
  */
 function app_resize() {
-  var chat = $(".chat", $("#tab-global"));
-  var log = cah.log.log;
-
-  var chatWidth = $("#canvas").width() - 257;
-  $("#tabs").width(chatWidth + 'px');
-  var bottomHeight = $(window).height() - $("#main").height() - $("#menubar").height() - 29;
-  $("#bottom").height(bottomHeight);
-  $("#info_area").height(bottomHeight);
-  $("#tabs").height(bottomHeight);
-  $("#tab-preferences").height(bottomHeight - 45);
-  $("#tab-gamelist-filters").height(bottomHeight - 45);
-
-  // global chat
-  do_app_resize(chat, log);
-  // per-game chats
-  for (var id in cah.currentGames) {
-    chat = $(".chat", $("#tab-chat-game_" + id));
-    log = $(".log", $("#tab-chat-game_" + id));
-    do_app_resize(chat, log);
-  }
-
-  // this is ugly and terrible.
+  // Sizing of #main, #bottom, #tabs, chat and log is handled entirely by CSS
+  // (flex + calc rules in cah.css). Only scrolling behavior remains here.
   if ($(window).height() < 650) {
     $("body").css("overflow-y", "auto");
   } else {
@@ -432,11 +412,7 @@ function app_resize() {
 }
 
 function do_app_resize(chatElement, logElement) {
-  var chatWidth = $("#canvas").width() - 257;
-  logElement.width((chatWidth + 2) + 'px');
-  chatElement.width((chatWidth - 42) + 'px');
-  var bottomHeight = $(window).height() - $("#main").height() - $("#menubar").height() - 29;
-  logElement.height(bottomHeight - chatElement.height() - 40);
+  // Layout handled by CSS.
 }
 
 cah.logUserPermalinks = function (data) {

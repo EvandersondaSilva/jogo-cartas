@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Start-Sleep -Seconds 20; try { $response = Invoke-WebRequest -Uri \"http://localhost:8080\" -TimeoutSec 10 -ErrorAction Stop; Write-Host \"Servidor respondeu: $\\($response.StatusCode\\)\" } catch { Write-Host \"Status: $_\" })",
+      "PowerShell(Start-Sleep -Seconds 15; $tcp = New-Object System.Net.Sockets.TcpClient; try { $tcp.Connect\\(\"localhost\", 8080\\); Write-Host \"Porta 8080 ABERTA - servidor rodando!\"; $tcp.Close\\(\\) } catch { Write-Host \"Porta 8080 ainda fechada, aguardando mais...\" })",
+      "PowerShell(Get-Process -Name \"java\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force)",
+      "PowerShell(Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"`$env:JAVA_HOME='C:\\\\Program Files\\\\Zulu\\\\zulu-11'; `$env:PATH='C:\\\\Program Files\\\\Zulu\\\\zulu-11\\\\bin;C:\\\\tools\\\\apache-maven-3.9.6\\\\bin;'+`$env:PATH; Set-Location 'c:\\\\Users\\\\Pablo\\\\Documents\\\\cards\\\\jogo-cartas'; mvn jetty:run '-Dmaven.buildNumber.doCheck=false' '-Dmaven.buildNumber.doUpdate=false'\"; Write-Host \"Iniciando...\")",
+      "PowerShell($timeout = 60; $elapsed = 0; do { Start-Sleep -Seconds 5; $elapsed += 5; $tcp = New-Object System.Net.Sockets.TcpClient; try { $tcp.Connect\\(\"localhost\", 8080\\); $tcp.Close\\(\\); Write-Host \"Servidor pronto em http://localhost:8080\"; break } catch { Write-Host \"Aguardando... \\($elapsed s\\)\" } } while \\($elapsed -lt $timeout\\))",
+      "PowerShell(Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"`$env:JAVA_HOME='C:\\\\Program Files\\\\Zulu\\\\zulu-11'; `$env:PATH='C:\\\\Program Files\\\\Zulu\\\\zulu-11\\\\bin;C:\\\\tools\\\\apache-maven-3.9.6\\\\bin;'+`$env:PATH; Set-Location 'c:\\\\Users\\\\Pablo\\\\Documents\\\\cards\\\\jogo-cartas'; mvn jetty:run '-Dmaven.buildNumber.doCheck=false' '-Dmaven.buildNumber.doUpdate=false'\")"
+    ]
+  }
+}
