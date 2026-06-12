@@ -1,0 +1,51 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< net.socialgamer:pyx >-------------------------
+[INFO] Building pyx 0.7.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> jetty:9.3.0.v20150612:run (default-cli) > test-compile @ pyx >>>
+[WARNING] 1 problem was encountered while building the effective model for org.javassist:javassist:jar:3.19.0-GA during dependency collection step for project (use -X to see details)
+[INFO] 
+[INFO] --- enforcer:1.3.1:enforce (enforce-files-exist) @ pyx ---
+[INFO] 
+[INFO] --- buildnumber:1.4:create (default) @ pyx ---
+[INFO] ShortRevision tag detected. The value is '7'.
+[INFO] Executing: cmd.exe /X /C "git rev-parse --verify --short=7 HEAD"
+[INFO] Working directory: C:\Users\user\Desktop\task\PretendYoureXyzzy
+[INFO] Storing buildNumber: ed08e37 at timestamp: 1781271594915
+[INFO] Storing buildScmBranch: master
+[INFO] 
+[INFO] --- properties:1.0-alpha-2:read-project-properties (read-build-properties) @ pyx ---
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ pyx ---
+[INFO] Copying 3 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.1:compile (default-compile) @ pyx ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ pyx ---
+[INFO] skip non existing resourceDirectory C:\Users\user\Desktop\task\PretendYoureXyzzy\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.1:testCompile (default-testCompile) @ pyx ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< jetty:9.3.0.v20150612:run (default-cli) < test-compile @ pyx <<<
+[INFO] 
+[INFO] 
+[INFO] --- jetty:9.3.0.v20150612:run (default-cli) @ pyx ---
+[INFO] Logging initialized @2698ms
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.700 s
+[INFO] Finished at: 2026-06-12T10:39:55-03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.eclipse.jetty:jetty-maven-plugin:9.3.0.v20150612:run (default-cli) on project pyx: Unable to parse configuration of mojo org.eclipse.jetty:jetty-maven-plugin:9.3.0.v20150612:run for parameter resourceBases: Cannot set 'resourceBases' in class org.eclipse.jetty.maven.plugin.JettyWebAppContext: InvocationTargetException: file:///C:/Users/user/Desktop/task/PretendYoureXyzzy/target/ZY is not an existing directory. -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginConfigurationException

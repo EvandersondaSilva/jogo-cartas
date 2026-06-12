@@ -29,7 +29,7 @@
  *          id The game id.
  * @constructor
  */
-cah.Game = function(id) {
+cah.Game = function (id) {
   /**
    * The game id.
    * 
@@ -94,7 +94,7 @@ cah.Game = function(id) {
   $("#card_set_template_label", this.optionsElement_).attr("for", "card_set_" + id);
   $("#game_password_template_label", this.optionsElement_).attr("for", "game_password_" + id);
   $("#game_hide_password_template_label", this.optionsElement_).attr("for",
-      "game_hide_password_" + id);
+    "game_hide_password_" + id);
   $("#timer_multiplier_template_label", this.optionsElement_).attr("for", "timer_multiplier_" + id);
 
   $("#score_limit_template", this.optionsElement_).attr("id", "score_limit_" + id);
@@ -107,19 +107,19 @@ cah.Game = function(id) {
   $("#timer_multiplier_template", this.optionsElement_).attr("id", "timer_multiplier_" + id);
   $("#blanks_limit_template", this.optionsElement_).attr("id", "blanks_limit_" + id);
 
-  for ( var key in cah.CardSet.byWeight) {
+  for (var key in cah.CardSet.byWeight) {
     /** @type {cah.CardSet} */
     var cardSet = cah.CardSet.byWeight[key];
     var cardSetElementId = 'card_set_' + this.id_ + '_' + cardSet.getId();
     var title = cardSet.getDescription() + ' ' + cardSet.getBlackCardCount() + ' black card'
-        + (cardSet.getBlackCardCount() == 1 ? '' : 's') + ', ' + cardSet.getWhiteCardCount()
-        + ' white card' + (cardSet.getWhiteCardCount() == 1 ? '' : 's') + '.';
+      + (cardSet.getBlackCardCount() == 1 ? '' : 's') + ', ' + cardSet.getWhiteCardCount()
+      + ' white card' + (cardSet.getWhiteCardCount() == 1 ? '' : 's') + '.';
     var aria_label = cardSet.getName() + '. ' + title;
     // that space at the beginning matters
     var html = ' <span class="nowrap"><input type="checkbox" id="' + cardSetElementId
-        + '" class="card_set" title="' + title + '" value="' + cardSet.getId()
-        + '" name="card_set" aria-label="' + aria_label + '" /><label for="' + cardSetElementId
-        + '" title="' + title + '" class="card_set_label">' + cardSet.getName() + '</label></span>';
+      + '" class="card_set" title="' + title + '" value="' + cardSet.getId()
+      + '" name="card_set" aria-label="' + aria_label + '" /><label for="' + cardSetElementId
+      + '" title="' + title + '" class="card_set_label">' + cardSet.getName() + '</label></span>';
     if (cardSet.isBaseDeck()) {
       $(".base_card_sets", this.optionsElement_).append(html);
     } else {
@@ -300,8 +300,8 @@ cah.Game = function(id) {
   this.canSelectCard_ = true;
 
   $("#leave_game").click(cah.bind(this, this.leaveGameClick_));
-  $("#start_game").click(cah.bind(this, this.startGameClick_));
-  $("#stop_game").click(cah.bind(this, this.stopGameClick_));
+  $("#start_game").unbind("click").click(cah.bind(this, this.startGameClick_));
+  $("#stop_game").unbind("click").click(cah.bind(this, this.stopGameClick_));
   $(".confirm_card", this.element_).click(cah.bind(this, this.confirmClick_));
   $(".game_show_last_round", this.element_).click(cah.bind(this, this.showLastRoundClick_));
   $(".game_show_options", this.element_).click(cah.bind(this, this.showOptionsClick_));
@@ -324,7 +324,7 @@ cah.Game = function(id) {
  * @param {Object}
  *          data The data returned by the server.
  */
-cah.Game.joinGame = function(gameId, data) {
+cah.Game.joinGame = function (gameId, data) {
   cah.Ajax.build(cah.$.AjaxOperation.GET_GAME_INFO).withGameId(gameId).run();
   cah.Ajax.build(cah.$.AjaxOperation.GET_CARDS).withGameId(gameId).run();
   cah.Ajax.build(cah.$.AjaxOperation.CARDCAST_LIST_CARDSETS).withGameId(gameId).run();
@@ -346,11 +346,11 @@ cah.Game.joinGame = function(gameId, data) {
  * @param {Object}
  *          data The data returned by the server, from either an AJAX call or an long poll response.
  */
-cah.Game.prototype.showGamePermalink_ = function(data) {
+cah.Game.prototype.showGamePermalink_ = function (data) {
   if (cah.$.AjaxResponse.GAME_PERMALINK in data) {
     cah.log.status_with_game(this, "<a href='" + data[cah.$.AjaxResponse.GAME_PERMALINK] +
-        "' rel='noopener' target='_blank'>Permanent link to this game's rounds.</a>", undefined,
-        true);
+      "' rel='noopener' target='_blank'>Permanent link to this game's rounds.</a>", undefined,
+      true);
   }
 }
 
@@ -359,7 +359,7 @@ cah.Game.prototype.showGamePermalink_ = function(data) {
  * 
  * @private
  */
-cah.Game.prototype.showLastRoundClick_ = function() {
+cah.Game.prototype.showLastRoundClick_ = function () {
   if (this.showingLastRound_) {
     $(".game_show_last_round", this.element_).attr("value", "Show Last Round");
     $(".game_black_card_round_indicator", this.element_).text("this round is");
@@ -382,7 +382,7 @@ cah.Game.prototype.showLastRoundClick_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.showOptionsClick_ = function() {
+cah.Game.prototype.showOptionsClick_ = function () {
   if (this.showingOptions_) {
     this.showOptions_();
   } else {
@@ -396,12 +396,12 @@ cah.Game.prototype.showOptionsClick_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.showOrHidePassword_ = function() {
+cah.Game.prototype.showOrHidePassword_ = function () {
   if ($(".game_hide_password", this.optionsElement_).attr("checked")) {
     $(".game_password", this.optionsElement_).hide();
     $(".game_fake_password", this.optionsElement_).show();
     $(".game_fake_password", this.optionsElement_).attr("value",
-        $(".game_password", this.optionsElement_).attr("value"));
+      $(".game_password", this.optionsElement_).attr("value"));
     $(".game_fake_password", this.optionsElement_).attr("disabled", "disabled");
   } else {
     $(".game_password", this.optionsElement_).show();
@@ -412,7 +412,7 @@ cah.Game.prototype.showOrHidePassword_ = function() {
 /**
  * @return {HTMLDivElement} This object's element.
  */
-cah.Game.prototype.getElement = function() {
+cah.Game.prototype.getElement = function () {
   return this.element_;
 };
 
@@ -422,7 +422,7 @@ cah.Game.prototype.getElement = function() {
  * @param {Object}
  *          card Black card data from server.
  */
-cah.Game.prototype.setBlackCard = function(card) {
+cah.Game.prototype.setBlackCard = function (card) {
   this.blackCard_ = new cah.card.BlackCard(true, card[cah.$.BlackCardData.ID]);
   this.blackCard_.setText(card[cah.$.BlackCardData.TEXT]);
   this.blackCard_.setWatermark(card[cah.$.BlackCardData.WATERMARK]);
@@ -431,7 +431,7 @@ cah.Game.prototype.setBlackCard = function(card) {
 
   if (1 != card[cah.$.BlackCardData.PICK] && this.judge_ != cah.nickname) {
     cah.log.status_with_game(this, "Play " + card[cah.$.BlackCardData.PICK]
-        + " cards, in the order you wish them to be judged.");
+      + " cards, in the order you wish them to be judged.");
   }
 
   if (!this.showingLastRound_) {
@@ -445,8 +445,8 @@ cah.Game.prototype.setBlackCard = function(card) {
  * @param {Array}
  *          cards The array of card objects sent from the server.
  */
-cah.Game.prototype.dealtCards = function(cards) {
-  for ( var index in cards) {
+cah.Game.prototype.dealtCards = function (cards) {
+  for (var index in cards) {
     var thisCard = cards[index];
     var card = new cah.card.WhiteCard(true, thisCard[cah.$.WhiteCardData.ID]);
     card.setText(thisCard[cah.$.WhiteCardData.TEXT]);
@@ -462,7 +462,7 @@ cah.Game.prototype.dealtCards = function(cards) {
  * @param {cah.card.WhiteCard}
  *          card Card to add to hand.
  */
-cah.Game.prototype.dealtCard = function(card) {
+cah.Game.prototype.dealtCard = function (card) {
   this.hand_.push(card);
   var element = card.getElement();
   $(".game_hand_cards", this.element_).append(element);
@@ -470,12 +470,12 @@ cah.Game.prototype.dealtCard = function(card) {
   $(element).css("transform-origin", "0 0");
 
   var data = {
-    card : card,
+    card: card,
   };
   $(element).on("mouseenter.hand", data, cah.bind(this, this.handCardMouseEnter_)).on(
-      "mouseleave.hand", data, cah.bind(this, this.handCardMouseLeave_)).on("click.hand", data,
+    "mouseleave.hand", data, cah.bind(this, this.handCardMouseLeave_)).on("click.hand", data,
       cah.bind(this, this.handCardClick_)).on("keypress.hand", data,
-      cah.bind(this, this.handCardKeypress_));
+        cah.bind(this, this.handCardKeypress_));
 
   this.resizeHandCards_();
 };
@@ -486,9 +486,9 @@ cah.Game.prototype.dealtCard = function(card) {
  * @param {cah.card.WhiteCard}
  *          card Card to remove.
  */
-cah.Game.prototype.removeCardFromHand = function(card) {
+cah.Game.prototype.removeCardFromHand = function (card) {
   var cardIndex = -1;
-  for ( var index in this.hand_) {
+  for (var index in this.hand_) {
     if (this.hand_[index] == card) {
       cardIndex = index;
       break;
@@ -496,7 +496,7 @@ cah.Game.prototype.removeCardFromHand = function(card) {
   }
   if (cardIndex != -1) {
     $(card.getElement()).css("width", "").css("height", "").css("transform-origin", "").css(
-        "z-index", "").css("-moz-transform", "").css("-ms-transform", "").css("-webkit-transform",
+      "z-index", "").css("-moz-transform", "").css("-ms-transform", "").css("-webkit-transform",
         "").css("-o-transform", "").off(".hand");
     this.hand_.splice(cardIndex, 1);
   }
@@ -508,7 +508,7 @@ cah.Game.prototype.removeCardFromHand = function(card) {
 /**
  * Remove all cards from the screen.
  */
-cah.Game.prototype.removeAllCards = function() {
+cah.Game.prototype.removeAllCards = function () {
   var handCount = this.hand_.length;
   for (var i = 0; i < handCount; i++) {
     this.removeCardFromHand(this.hand_[0]);
@@ -516,7 +516,7 @@ cah.Game.prototype.removeAllCards = function() {
   this.handSelectedCard_ = null;
   $(".confirm_card", this.element_).attr("disabled", "disabled");
   $(".game_black_card", this.element_).empty();
-  for ( var index in this.roundCards_) {
+  for (var index in this.roundCards_) {
     $(this.roundCards_[index]).off(".round");
   }
   this.roundCards_ = {};
@@ -529,10 +529,10 @@ cah.Game.prototype.removeAllCards = function() {
  * @param {Array}
  *          cardSets Array of arrays of cah.$.WhiteCardData to display.
  */
-cah.Game.prototype.setRoundWhiteCards = function(cardSets) {
-  for ( var setIndex in cardSets) {
+cah.Game.prototype.setRoundWhiteCards = function (cardSets) {
+  for (var setIndex in cardSets) {
     var thisSet = Array();
-    for ( var index in cardSets[setIndex]) {
+    for (var index in cardSets[setIndex]) {
       var cardData = cardSets[setIndex][index];
       var card;
       var id = cardData[cah.$.WhiteCardData.ID];
@@ -556,7 +556,7 @@ cah.Game.prototype.setRoundWhiteCards = function(cardSets) {
  *          cards Array of cah.card.WhiteCard to add to area.
  * @private
  */
-cah.Game.prototype.addRoundWhiteCard_ = function(cards) {
+cah.Game.prototype.addRoundWhiteCard_ = function (cards) {
   var parentElem;
   if (cards.length > 1) {
     parentElem = $("#game_white_cards_binder_template").clone()[0];
@@ -567,7 +567,7 @@ cah.Game.prototype.addRoundWhiteCard_ = function(cards) {
     parentElem = $(".game_white_cards", this.element_)[0];
   }
 
-  for ( var index in cards) {
+  for (var index in cards) {
     var card = cards[index];
 
     var element = card.getElement();
@@ -575,12 +575,12 @@ cah.Game.prototype.addRoundWhiteCard_ = function(cards) {
     $(element).css("transform-origin", "0 0");
 
     var data = {
-      card : card,
+      card: card,
     };
     $(element).on("mouseenter.round", data, cah.bind(this, this.roundCardMouseEnter_)).on(
-        "mouseleave.round", data, cah.bind(this, this.roundCardMouseLeave_)).on("click.round",
+      "mouseleave.round", data, cah.bind(this, this.roundCardMouseLeave_)).on("click.round",
         data, cah.bind(this, this.roundCardClick_)).on("keypress.round", data,
-        cah.bind(this, this.roundCardKeypress_));
+          cah.bind(this, this.roundCardKeypress_));
 
   }
   this.roundCards_[cards[0].getServerId()] = cards;
@@ -594,16 +594,16 @@ cah.Game.prototype.addRoundWhiteCard_ = function(cards) {
  * @param e
  * @private
  */
-cah.Game.prototype.handCardMouseEnter_ = function(e) {
+cah.Game.prototype.handCardMouseEnter_ = function (e) {
   if (!$(".game_animate_cards", this.element_).attr("checked")) {
     return;
   }
   $(e.data.card.getElement()).css("z-index", "400").animate({
-    scale : this.handCardLargeScale_,
-    width : this.handCardLargeSize_,
+    scale: this.handCardLargeScale_,
+    width: this.handCardLargeSize_,
   }, {
-    duration : 200,
-    queue : false,
+    duration: 200,
+    queue: false,
   });
 };
 
@@ -613,14 +613,14 @@ cah.Game.prototype.handCardMouseEnter_ = function(e) {
  * @param e
  * @private
  */
-cah.Game.prototype.handCardMouseLeave_ = function(e) {
+cah.Game.prototype.handCardMouseLeave_ = function (e) {
   $(e.data.card.getElement()).animate({
-    scale : this.handCardSmallScale_,
-    "z-index" : 1,
-    width : this.handCardSmallSize_,
+    scale: this.handCardSmallScale_,
+    "z-index": 1,
+    width: this.handCardSmallSize_,
   }, {
-    duration : 200,
-    queue : false,
+    duration: 200,
+    queue: false,
   });
 };
 
@@ -630,16 +630,16 @@ cah.Game.prototype.handCardMouseLeave_ = function(e) {
  * @param e
  * @private
  */
-cah.Game.prototype.roundCardMouseEnter_ = function(e) {
+cah.Game.prototype.roundCardMouseEnter_ = function (e) {
   if (!$(".game_animate_cards", this.element_).attr("checked")) {
     return;
   }
   $(e.data.card.getElement()).css("z-index", "201").animate({
-    scale : this.roundCardLargeScale_,
-    width : this.roundCardLargeSize_,
+    scale: this.roundCardLargeScale_,
+    width: this.roundCardLargeSize_,
   }, {
-    duration : 200,
-    queue : false,
+    duration: 200,
+    queue: false,
   });
 };
 
@@ -649,14 +649,14 @@ cah.Game.prototype.roundCardMouseEnter_ = function(e) {
  * @param e
  * @private
  */
-cah.Game.prototype.roundCardMouseLeave_ = function(e) {
+cah.Game.prototype.roundCardMouseLeave_ = function (e) {
   $(e.data.card.getElement()).animate({
-    scale : this.roundCardSmallScale_,
-    "z-index" : 200,
-    width : this.roundCardSmallSize_,
+    scale: this.roundCardSmallScale_,
+    "z-index": 200,
+    width: this.roundCardSmallSize_,
   }, {
-    duration : 200,
-    queue : false,
+    duration: 200,
+    queue: false,
   });
 };
 
@@ -665,7 +665,7 @@ cah.Game.prototype.roundCardMouseLeave_ = function(e) {
  * 
  * @private
  */
-cah.Game.prototype.windowResize_ = function() {
+cah.Game.prototype.windowResize_ = function () {
   this.resizeHandCards_();
   this.resizeRoundCards_();
 };
@@ -675,18 +675,18 @@ cah.Game.prototype.windowResize_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.resizeHandCards_ = function() {
+cah.Game.prototype.resizeHandCards_ = function () {
   var data = {
-    class : ".game_hand_cards",
-    cardSmallSize : this.handCardSmallSize_,
-    cardLargeSize : this.handCardLargeSize_,
-    cardSmallScale : this.handCardSmallScale_,
-    cardLargeScale : this.handCardLargeScale_,
-    maxSmallSize : 150,
-    minSmallSize : 66,
-    smallSize : function() {
-      return ($(".game_hand_cards", this.element_).width() - 20)
-          / ($(".game_hand_cards .card_holder", this.element_).length + 1);
+    class: ".game_hand_cards",
+    cardSmallSize: this.handCardSmallSize_,
+    cardLargeSize: this.handCardLargeSize_,
+    cardSmallScale: this.handCardSmallScale_,
+    cardLargeScale: this.handCardLargeScale_,
+    maxSmallSize: 150,
+    minSmallSize: 110, // Increased min size to encourage scrolling
+    smallSize: function () {
+      // Return a fixed size or a larger minimum to allow cards to overflow and scroll
+      return 130;
     },
   };
   this.resizeCardHelper_(data);
@@ -704,20 +704,18 @@ cah.Game.prototype.resizeHandCards_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.resizeRoundCards_ = function() {
-  $(".game_right_side", this.element_).width(
-      $(window).width() - $(".game_left_side", this.element_).width() - 30);
+cah.Game.prototype.resizeRoundCards_ = function () {
   var data = {
-    class : ".game_white_cards",
-    cardSmallSize : this.roundCardSmallSize_,
-    cardLargeSize : this.roundCardLargeSize_,
-    cardSmallScale : this.roundCardSmallScale_,
-    cardLargeScale : this.roundCardLargeScale_,
-    maxSmallSize : 236,
-    minSmallSize : 118,
-    smallSize : function() {
-      return ($(window).width() - $(".game_left_side", this.element_).width() - 60)
-          / $(".game_white_cards .card_holder", this.element_).length;
+    class: ".game_white_cards",
+    cardSmallSize: this.roundCardSmallSize_,
+    cardLargeSize: this.roundCardLargeSize_,
+    cardSmallScale: this.roundCardSmallScale_,
+    cardLargeScale: this.roundCardLargeScale_,
+    maxSmallSize: 236,
+    minSmallSize: 118,
+    smallSize: function () {
+      return ($(".game_right_side", this.element_).width() - 60)
+        / Math.max(1, $(".game_white_cards .card_holder", this.element_).length);
     },
   };
   this.resizeCardHelper_(data);
@@ -734,7 +732,7 @@ cah.Game.prototype.resizeRoundCards_ = function() {
  *          data In/out. Scale, size, and callback helper.
  * @private
  */
-cah.Game.prototype.resizeCardHelper_ = function(data) {
+cah.Game.prototype.resizeCardHelper_ = function (data) {
   var elems = $(data.class + " .card_holder", this.element_);
 
   data.cardSmallSize = data.smallSize();
@@ -756,16 +754,16 @@ cah.Game.prototype.resizeCardHelper_ = function(data) {
     data.cardLargeScale = maxScale;
   }
   elems.width(data.cardSmallSize).height(data.cardSmallSize).animate({
-    scale : data.cardSmallScale,
+    scale: data.cardSmallScale,
   }, {
-    duration : 0,
+    duration: 0,
   });
 };
 
 /**
  * Insert this game into the document.
  */
-cah.Game.prototype.insertIntoDocument = function() {
+cah.Game.prototype.insertIntoDocument = function () {
   $("#main_holder").empty().append(this.element_);
   $("#info_area").empty().append(this.scoreboardElement_);
   $("#leave_game").show();
@@ -791,7 +789,7 @@ cah.Game.prototype.insertIntoDocument = function() {
  * @param {object}
  *          data Payload from server.
  */
-cah.Game.prototype.addCardcastDeck = function(data) {
+cah.Game.prototype.addCardcastDeck = function (data) {
   this.displayCardcastDeckMessage_(data[cah.$.LongPollResponse.CARDCAST_DECK_INFO], "Added");
 };
 
@@ -801,7 +799,7 @@ cah.Game.prototype.addCardcastDeck = function(data) {
  * @param {object}
  *          data Payload from server.
  */
-cah.Game.prototype.removeCardcastDeck = function(data) {
+cah.Game.prototype.removeCardcastDeck = function (data) {
   this.displayCardcastDeckMessage_(data[cah.$.LongPollResponse.CARDCAST_DECK_INFO], "Removed");
 };
 
@@ -811,12 +809,12 @@ cah.Game.prototype.removeCardcastDeck = function(data) {
  * @param {array}
  *          data Array of CardSetDatas.
  */
-cah.Game.prototype.listCardcastDecks = function(cardSets) {
+cah.Game.prototype.listCardcastDecks = function (cardSets) {
   cah.log.status_with_game(this, "The following <a target='_blank'"
-      + " href='http://www.cardcastgame.com'>Cardcast</a> decks are in use in this game (<a"
-      + " target='_blank' href='https://github.com/ajanata/PretendYoureXyzzy/wiki/Cardcast'>"
-      + "instructions</a>):", 'admin', true);
-  for ( var key in cardSets) {
+    + " href='http://www.cardcastgame.com'>Cardcast</a> decks are in use in this game (<a"
+    + " target='_blank' href='https://github.com/ajanata/PretendYoureXyzzy/wiki/Cardcast'>"
+    + "instructions</a>):", 'admin', true);
+  for (var key in cardSets) {
     var cardSetData = cardSets[key];
     this.displayCardcastDeckMessage_(cardSetData, "In use");
   }
@@ -831,12 +829,12 @@ cah.Game.prototype.listCardcastDecks = function(cardSets) {
  *          verb Verb to display at the beginning of the message: "Added", "Removed", "In use", etc.
  * @private
  */
-cah.Game.prototype.displayCardcastDeckMessage_ = function(deckInfo, verb) {
+cah.Game.prototype.displayCardcastDeckMessage_ = function (deckInfo, verb) {
   var code = ("00000" + (-1 * deckInfo[cah.$.CardSetData.ID]).toString(36).toUpperCase()).slice(-5);
   var str = verb + ": Cardcast deck '" + deckInfo[cah.$.CardSetData.CARD_SET_NAME]
-      + "' (code: <a target='_blank' href='http://www.cardcastgame.com/browse/deck/" + code + "'> "
-      + code + "</a>), with " + deckInfo[cah.$.CardSetData.BLACK_CARDS_IN_DECK]
-      + " black cards and " + deckInfo[cah.$.CardSetData.WHITE_CARDS_IN_DECK] + " white cards.";
+    + "' (code: <a target='_blank' href='http://www.cardcastgame.com/browse/deck/" + code + "'> "
+    + code + "</a>), with " + deckInfo[cah.$.CardSetData.BLACK_CARDS_IN_DECK]
+    + " black cards and " + deckInfo[cah.$.CardSetData.WHITE_CARDS_IN_DECK] + " white cards.";
   cah.log.status_with_game(this, str, 'admin', true);
 };
 
@@ -846,7 +844,7 @@ cah.Game.prototype.displayCardcastDeckMessage_ = function(deckInfo, verb) {
  * @param {Object}
  *          data Game data returned from server.
  */
-cah.Game.prototype.updateGameStatus = function(data) {
+cah.Game.prototype.updateGameStatus = function (data) {
   var gameInfo = data[cah.$.AjaxResponse.GAME_INFO];
   var options = gameInfo[cah.$.AjaxResponse.GAME_OPTIONS];
   this.host_ = gameInfo[cah.$.GameInfo.HOST];
@@ -877,19 +875,19 @@ cah.Game.prototype.updateGameStatus = function(data) {
 
   var cardSetIds = options[cah.$.GameOptionData.CARD_SETS];// .split(',');
   $(".card_set", this.optionsElement_).removeAttr("checked");
-  for ( var key in cardSetIds) {
+  for (var key in cardSetIds) {
     var cardSetId = cardSetIds[key];
     $("#card_set_" + this.id_ + "_" + cardSetId, this.optionsElement_).attr("checked", "checked");
   }
   $(".blanks_limit", this.optionsElement_).val(options[cah.$.GameOptionData.BLANKS_LIMIT]);
 
   var playerInfos = data[cah.$.AjaxResponse.PLAYER_INFO];
-  for ( var index in playerInfos) {
+  for (var index in playerInfos) {
     this.updateUserStatus(playerInfos[index]);
   }
 
   var spectators = gameInfo[cah.$.GameInfo.SPECTATORS];
-  for ( var index in spectators) {
+  for (var index in spectators) {
     this.updateSpectator(spectators[index]);
   }
 };
@@ -900,7 +898,7 @@ cah.Game.prototype.updateGameStatus = function(data) {
  * @param {Object}
  *          playerInfo The PlayerInfo from the server.
  */
-cah.Game.prototype.updateUserStatus = function(playerInfo) {
+cah.Game.prototype.updateUserStatus = function (playerInfo) {
   var playerName = playerInfo[cah.$.GamePlayerInfo.NAME];
   var playerStatus = playerInfo[cah.$.GamePlayerInfo.STATUS];
   var panel = this.scoreCards_[playerName];
@@ -946,7 +944,7 @@ cah.Game.prototype.updateUserStatus = function(playerInfo) {
   }
 
   if (playerStatus == cah.$.GamePlayerStatus.JUDGE
-      || playerStatus == cah.$.GamePlayerStatus.JUDGING) {
+    || playerStatus == cah.$.GamePlayerStatus.JUDGING) {
     this.judge_ = playerName;
   }
 
@@ -970,7 +968,7 @@ cah.Game.prototype.updateUserStatus = function(playerInfo) {
  * @param {String}
  *          spectator The spectator name.
  */
-cah.Game.prototype.updateSpectator = function(spectator) {
+cah.Game.prototype.updateSpectator = function (spectator) {
   var panel = this.scoreCards_[spectator];
   if (!panel) {
     // new score panel
@@ -985,7 +983,7 @@ cah.Game.prototype.updateSpectator = function(spectator) {
 
   if (spectator == cah.nickname) {
     $(".game_message", this.element_).text(
-        cah.$.GamePlayerStatus_msg_2[cah.$.GamePlayerStatus.SPECTATOR]);
+      cah.$.GamePlayerStatus_msg_2[cah.$.GamePlayerStatus.SPECTATOR]);
     $(".confirm_card", this.element_).attr("disabled", "disabled");
   }
 };
@@ -996,10 +994,10 @@ cah.Game.prototype.updateSpectator = function(spectator) {
  * @param {Object}
  *          data Data from server.
  */
-cah.Game.prototype.roundComplete = function(data) {
+cah.Game.prototype.roundComplete = function (data) {
   var cards = this.roundCards_[data[cah.$.LongPollResponse.WINNING_CARD]];
   var ariaText = '';
-  for ( var index in cards) {
+  for (var index in cards) {
     var card = cards[index];
     $(".card", card.getElement()).addClass("selected");
     ariaText += card.getAriaText();
@@ -1009,17 +1007,17 @@ cah.Game.prototype.roundComplete = function(data) {
   $(scoreCard.getElement()).addClass("selected");
   $(".confirm_card", this.element_).attr("disabled", "disabled");
   var msg = roundWinner + " wins the round.  The next round will begin in "
-      + (data[cah.$.LongPollResponse.INTERMISSION] / 1000) + " seconds.";
+    + (data[cah.$.LongPollResponse.INTERMISSION] / 1000) + " seconds.";
   if (cah.$.LongPollResponse.ROUND_PERMALINK in data) {
     msg = msg + " <a href='" + data[cah.$.LongPollResponse.ROUND_PERMALINK]
-        + "' rel='noopener' target='_blank'>Permalink</a>";
+      + "' rel='noopener' target='_blank'>Permalink</a>";
   }
   cah.log.status_with_game(this, msg, undefined, true);
 
   // update the previous round display
   $(".game_last_round_winner", this.element_).text(roundWinner);
   $(".game_last_round_cards", this.element_).empty().append(
-      $(".game_white_card_wrapper .card_holder", this.element_).clone());
+    $(".game_white_card_wrapper .card_holder", this.element_).clone());
   this.lastBlackCard_ = this.blackCard_;
   $(".game_show_last_round", this.element_).removeAttr("disabled");
 
@@ -1030,9 +1028,9 @@ cah.Game.prototype.roundComplete = function(data) {
 /**
  * Notify the user that they are running out of time to play.
  */
-cah.Game.prototype.hurryUp = function() {
+cah.Game.prototype.hurryUp = function () {
   cah.log.status_with_game(this,
-      "Hurry up! You have less than 10 seconds to decide, or you will be skipped.");
+    "Hurry up! You have less than 10 seconds to decide, or you will be skipped.");
 };
 
 /**
@@ -1041,9 +1039,9 @@ cah.Game.prototype.hurryUp = function() {
  * @param {object}
  *          data Event data from server.
  */
-cah.Game.prototype.playerKickedIdle = function(data) {
+cah.Game.prototype.playerKickedIdle = function (data) {
   cah.log.status_with_game(this, data[cah.$.LongPollResponse.NICKNAME]
-      + " was kicked for being idle for too many rounds.");
+    + " was kicked for being idle for too many rounds.");
 };
 
 /**
@@ -1052,9 +1050,9 @@ cah.Game.prototype.playerKickedIdle = function(data) {
  * @param {obejct}
  *          data Event data from server.
  */
-cah.Game.prototype.playerSkipped = function(data) {
+cah.Game.prototype.playerSkipped = function (data) {
   cah.log.status_with_game(this, data[cah.$.LongPollResponse.NICKNAME]
-      + " was skipped this round for being idle for too long.");
+    + " was skipped this round for being idle for too long.");
 };
 
 /**
@@ -1063,7 +1061,7 @@ cah.Game.prototype.playerSkipped = function(data) {
  * @param {String}
  *          deck Deck name which has been reshuffled.
  */
-cah.Game.prototype.reshuffle = function(deck) {
+cah.Game.prototype.reshuffle = function (deck) {
   cah.log.status_with_game(this, "The " + deck + " deck has been reshuffled.");
 };
 
@@ -1073,20 +1071,20 @@ cah.Game.prototype.reshuffle = function(deck) {
  * @param {object}
  *          data Event data from the server.
  */
-cah.Game.prototype.judgeLeft = function(data) {
+cah.Game.prototype.judgeLeft = function (data) {
   cah.log.status_with_game(this,
-      "The Card Czar has left the game. Cards played this round are being returned to hands.");
+    "The Card Czar has left the game. Cards played this round are being returned to hands.");
   cah.log.status_with_game(this, "The next round will begin in "
-      + (data[cah.$.LongPollResponse.INTERMISSION] / 1000) + " seconds.");
+    + (data[cah.$.LongPollResponse.INTERMISSION] / 1000) + " seconds.");
   cah.log.status_with_game(this, "(Displayed state will look weird until the next round.)");
 };
 
 /**
  * The judge was skipped for taking too long.
  */
-cah.Game.prototype.judgeSkipped = function() {
+cah.Game.prototype.judgeSkipped = function () {
   cah.log.status_with_game(this, "The Card Czar has taken too long to decide and has been skipped."
-      + " Cards played this round are being returned to hands.");
+    + " Cards played this round are being returned to hands.");
 };
 
 /**
@@ -1094,16 +1092,16 @@ cah.Game.prototype.judgeSkipped = function() {
  * 
  * @private
  */
-cah.Game.prototype.confirmClick_ = function() {
+cah.Game.prototype.confirmClick_ = function () {
   if (this.judge_ == cah.nickname) {
     if (this.roundSelectedCard_ != null) {
       cah.Ajax.build(cah.$.AjaxOperation.JUDGE_SELECT).withGameId(this.id_).withCardId(
-          this.roundSelectedCard_.getServerId()).run();
+        this.roundSelectedCard_.getServerId()).run();
     }
   } else {
     if (this.handSelectedCard_ != null) {
       var ajax = cah.Ajax.build(cah.$.AjaxOperation.PLAY_CARD).withGameId(this.id_).withCardId(
-          this.handSelectedCard_.getServerId());
+        this.handSelectedCard_.getServerId());
       if (this.handSelectedCard_.isBlankCard()) {
         // blank card
         var text = prompt("What would you like this card to say?", "");
@@ -1126,7 +1124,7 @@ cah.Game.prototype.confirmClick_ = function() {
  * @param e
  * @private
  */
-cah.Game.prototype.handCardKeypress_ = function(e) {
+cah.Game.prototype.handCardKeypress_ = function (e) {
   if (32 == e.which) {
     this.handCardClick_(e);
   }
@@ -1138,7 +1136,7 @@ cah.Game.prototype.handCardKeypress_ = function(e) {
  * @param e
  * @private
  */
-cah.Game.prototype.handCardClick_ = function(e) {
+cah.Game.prototype.handCardClick_ = function (e) {
   if (!this.canSelectCard_) {
     return;
   }
@@ -1178,7 +1176,7 @@ cah.Game.prototype.handCardClick_ = function(e) {
  * @param e
  * @private
  */
-cah.Game.prototype.roundCardKeypress_ = function(e) {
+cah.Game.prototype.roundCardKeypress_ = function (e) {
   if (32 == e.which) {
     this.roundCardClick_(e);
   }
@@ -1190,7 +1188,7 @@ cah.Game.prototype.roundCardKeypress_ = function(e) {
  * @param e
  * @private
  */
-cah.Game.prototype.roundCardClick_ = function(e) {
+cah.Game.prototype.roundCardClick_ = function (e) {
   if (!this.canSelectCard_) {
     return;
   }
@@ -1225,7 +1223,7 @@ cah.Game.prototype.roundCardClick_ = function(e) {
  * 
  * @private
  */
-cah.Game.prototype.leaveGameClick_ = function() {
+cah.Game.prototype.leaveGameClick_ = function () {
   // TODO make sure everything cleans up right, I got an error when I tried to start a different
   // game after leaving one
   if (confirm("Are you sure you wish to leave the game?")) {
@@ -1241,7 +1239,7 @@ cah.Game.prototype.leaveGameClick_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.startGameClick_ = function() {
+cah.Game.prototype.startGameClick_ = function () {
   // TODO make the button go disabled
   cah.Ajax.build(cah.$.AjaxOperation.START_GAME).withGameId(this.id_).run();
 };
@@ -1249,7 +1247,7 @@ cah.Game.prototype.startGameClick_ = function() {
 /**
  * Called when the call to the server to start the game has completed successfully.
  */
-cah.Game.prototype.startGameComplete = function() {
+cah.Game.prototype.startGameComplete = function () {
   $("#start_game").hide();
 };
 
@@ -1258,14 +1256,14 @@ cah.Game.prototype.startGameComplete = function() {
  * 
  * @private
  */
-cah.Game.prototype.stopGameClick_ = function() {
+cah.Game.prototype.stopGameClick_ = function () {
   cah.Ajax.build(cah.$.AjaxOperation.STOP_GAME).withGameId(this.id_).run();
 };
 
 /**
  * Called when the call to the server to play a card has completed successfully.
  */
-cah.Game.prototype.playCardComplete = function() {
+cah.Game.prototype.playCardComplete = function () {
   if (this.handSelectedCard_) {
     $(".card", this.handSelectedCard_.getElement()).removeClass("selected");
     // TODO support for multiple play, though it seems to be working now...
@@ -1280,7 +1278,7 @@ cah.Game.prototype.playCardComplete = function() {
 /**
  * Called when an error ocurred while playing a card.
  */
-cah.Game.prototype.playCardError = function() {
+cah.Game.prototype.playCardError = function () {
   this.enableCardControls_();
 };
 
@@ -1289,7 +1287,7 @@ cah.Game.prototype.playCardError = function() {
  * 
  * @private
  */
-cah.Game.prototype.enableCardControls_ = function() {
+cah.Game.prototype.enableCardControls_ = function () {
   this.canSelectCard_ = true;
 };
 
@@ -1298,14 +1296,14 @@ cah.Game.prototype.enableCardControls_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.disableCardControls_ = function() {
+cah.Game.prototype.disableCardControls_ = function () {
   this.canSelectCard_ = false;
 };
 
 /**
  * Free resources used by this game and remove from the document.
  */
-cah.Game.prototype.dispose = function() {
+cah.Game.prototype.dispose = function () {
   $(this.element_).remove();
   $(this.scoreboardElement_).remove();
   $("#leave_game").unbind().hide();
@@ -1322,7 +1320,7 @@ cah.Game.prototype.dispose = function() {
  * @param {String}
  *          player Player that joined.
  */
-cah.Game.prototype.playerJoin = function(player) {
+cah.Game.prototype.playerJoin = function (player) {
   if (player != cah.nickname) {
     cah.log.status_with_game(this, player + " has joined the game.");
     this.refreshGameStatus();
@@ -1337,7 +1335,7 @@ cah.Game.prototype.playerJoin = function(player) {
  * @param {String}
  *          player Player that left.
  */
-cah.Game.prototype.playerLeave = function(player) {
+cah.Game.prototype.playerLeave = function (player) {
   if (player != cah.nickname) {
     cah.log.status_with_game(this, player + " has left the game.");
     this.refreshGameStatus();
@@ -1357,7 +1355,7 @@ cah.Game.prototype.playerLeave = function(player) {
  * @param {String}
  *          spectator Spectator that joined.
  */
-cah.Game.prototype.spectatorJoin = function(spectator) {
+cah.Game.prototype.spectatorJoin = function (spectator) {
   if (spectator != cah.nickname) {
     cah.log.status_with_game(this, spectator + " has started spectating the game.");
     this.refreshGameStatus();
@@ -1373,7 +1371,7 @@ cah.Game.prototype.spectatorJoin = function(spectator) {
  * @param {String}
  *          spectator Spectator that left.
  */
-cah.Game.prototype.spectatorLeave = function(spectator) {
+cah.Game.prototype.spectatorLeave = function (spectator) {
   if (spectator != cah.nickname) {
     cah.log.status_with_game(this, spectator + " has stopped spectating the game.");
     this.refreshGameStatus();
@@ -1393,7 +1391,7 @@ cah.Game.prototype.spectatorLeave = function(spectator) {
 /**
  * Refresh game scoreboard, etc.
  */
-cah.Game.prototype.refreshGameStatus = function() {
+cah.Game.prototype.refreshGameStatus = function () {
   cah.Ajax.build(cah.$.AjaxOperation.GET_GAME_INFO).withGameId(this.id_).run();
 };
 
@@ -1403,7 +1401,7 @@ cah.Game.prototype.refreshGameStatus = function() {
  * @param {Object}
  *          data Data from server.
  */
-cah.Game.prototype.stateChange = function(data) {
+cah.Game.prototype.stateChange = function (data) {
   this.state_ = data[cah.$.LongPollResponse.GAME_STATE];
 
   $(".scorecard", this.scoreboardElement_).removeClass("selected");
@@ -1444,7 +1442,7 @@ cah.Game.prototype.stateChange = function(data) {
  * 
  * @private
  */
-cah.Game.prototype.hideOptions_ = function() {
+cah.Game.prototype.hideOptions_ = function () {
   $(".game_show_options", this.element_).val("Show Game Options");
   $(".game_options", this.element_).addClass("hide");
   $(".game_right_side", this.element_).removeClass("hide");
@@ -1455,7 +1453,7 @@ cah.Game.prototype.hideOptions_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.showOptions_ = function() {
+cah.Game.prototype.showOptions_ = function () {
   $(".game_show_options", this.element_).val("Hide Game Options");
   $(".game_options", this.element_).removeClass("hide");
   $(".game_right_side", this.element_).addClass("hide");
@@ -1467,7 +1465,7 @@ cah.Game.prototype.showOptions_ = function() {
  * 
  * @private
  */
-cah.Game.prototype.updateOptionsEnabled_ = function() {
+cah.Game.prototype.updateOptionsEnabled_ = function () {
   if (this.host_ == cah.nickname && this.state_ == cah.$.GameState.LOBBY) {
     $("select", this.optionsElement_).removeAttr("disabled");
     $("input", this.optionsElement_).removeAttr("disabled");
@@ -1487,7 +1485,7 @@ cah.Game.prototype.updateOptionsEnabled_ = function() {
  * @param e
  * @private
  */
-cah.Game.prototype.optionChanged_ = function(e) {
+cah.Game.prototype.optionChanged_ = function (e) {
   // don't update the server for the 'hide password' option
   if (e.target.classList.contains('game_hide_password')) {
     return;
@@ -1506,10 +1504,10 @@ cah.Game.prototype.optionChanged_ = function(e) {
   options[cah.$.GameOptionData.PASSWORD] = $(".game_password", this.optionsElement_).val();
   options[cah.$.GameOptionData.BLANKS_LIMIT] = $(".blanks_limit", this.optionsElement_).val();
   options[cah.$.GameOptionData.TIMER_MULTIPLIER] = $('.timer_multiplier', this.optionsElement_)
-      .val();
+    .val();
 
   cah.Ajax.build(cah.$.AjaxOperation.CHANGE_GAME_OPTIONS).withGameId(this.id_).withGameOptions(
-      options).run();
+    options).run();
 };
 
 /**
@@ -1517,7 +1515,7 @@ cah.Game.prototype.optionChanged_ = function(e) {
  * @param {object}
  *          data Event data from server.
  */
-cah.Game.prototype.optionsChanged = function(data) {
+cah.Game.prototype.optionsChanged = function (data) {
   this.updateGameStatus(data);
 };
 
@@ -1525,7 +1523,7 @@ cah.Game.prototype.optionsChanged = function(data) {
  * @returns This game's chat element.
  * @type {HTMLDivElement}
  */
-cah.Game.prototype.getChatElement = function() {
+cah.Game.prototype.getChatElement = function () {
   return this.chatElement_;
 };
 
@@ -1538,7 +1536,7 @@ cah.Game.prototype.getChatElement = function() {
  *          player Player name.
  * @constructor
  */
-cah.GameScorePanel = function(player) {
+cah.GameScorePanel = function (player) {
   /**
    * Player name.
    * 
@@ -1575,7 +1573,7 @@ cah.GameScorePanel = function(player) {
   this.update(this.score_, this.status_);
 };
 
-cah.GameScorePanel.prototype.getElement = function() {
+cah.GameScorePanel.prototype.getElement = function () {
   return this.element_;
 };
 
@@ -1589,7 +1587,7 @@ cah.GameScorePanel.prototype.getElement = function() {
  * @param {cah.$.GamePlayerStatus}
  *          status The player's status.
  */
-cah.GameScorePanel.prototype.update = function(score, status) {
+cah.GameScorePanel.prototype.update = function (score, status) {
   this.score_ = score;
   this.status_ = status;
   $(".scorecard_score", this.element_).text(score);
@@ -1601,16 +1599,16 @@ cah.GameScorePanel.prototype.update = function(score, status) {
   } else {
     $(".scorecard_points", this.element_).removeClass("hide");
     $(this.element_).attr(
-        "aria-label",
-        this.player_ + " has " + score + " Awesome Point" + (score == 1 ? "" : "s") + ". "
-            + cah.$.GamePlayerStatus_msg[status]);
+      "aria-label",
+      this.player_ + " has " + score + " Awesome Point" + (score == 1 ? "" : "s") + ". "
+      + cah.$.GamePlayerStatus_msg[status]);
   }
 };
 
 /**
  * @returns {cah.$.GamePlayerStatus} The status of the player represented by this panel.
  */
-cah.GameScorePanel.prototype.getStatus = function() {
+cah.GameScorePanel.prototype.getStatus = function () {
   return this.status_;
 };
 

@@ -1,0 +1,49 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< net.socialgamer:pyx >-------------------------
+[INFO] Building pyx 0.7.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] 1 problem was encountered while building the effective model for org.javassist:javassist:jar:3.19.0-GA during dependency collection step for project (use -X to see details)
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ pyx ---
+[INFO] 
+[INFO] --- enforcer:1.3.1:enforce (enforce-files-exist) @ pyx ---
+[INFO] 
+[INFO] --- buildnumber:1.4:create (default) @ pyx ---
+[INFO] Executing: cmd.exe /X /C "git rev-parse --show-toplevel"
+[INFO] Working directory: C:\Users\user\Desktop\task\PretendYoureXyzzy
+[INFO] Executing: cmd.exe /X /C "git status --porcelain ."
+[INFO] Working directory: C:\Users\user\Desktop\task\PretendYoureXyzzy
+[WARNING] Ignoring unrecognized line: ?? .settings/org.eclipse.jdt.apt.core.prefs
+[WARNING] Ignoring unrecognized line: ?? DESIGN_SYSTEM.md
+[WARNING] Ignoring unrecognized line: ?? WebContent/images/dog-green.png
+[WARNING] Ignoring unrecognized line: ?? WebContent/images/logo-green.png
+[WARNING] Ignoring unrecognized line: ?? build_log.txt
+[WARNING] Ignoring unrecognized line: ?? rebuild.ps1
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.178 s
+[INFO] Finished at: 2026-06-12T10:31:22-03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.codehaus.mojo:buildnumber-maven-plugin:1.4:create (default) on project pyx: Cannot create the build number because you have local modifications : 
+[ERROR] [.classpath:modified]
+[ERROR] [.project:modified]
+[ERROR] [.settings/org.eclipse.jdt.core.prefs:modified]
+[ERROR] [WebContent/cah.css:modified]
+[ERROR] [WebContent/game.jsp:modified]
+[ERROR] [WebContent/index.jsp:modified]
+[ERROR] [WebContent/js/cah.app.js:modified]
+[ERROR] [WebContent/js/cah.constants.js:modified]
+[ERROR] [WebContent/js/cah.game.js:modified]
+[ERROR] [WebContent/viewcards.jsp:modified]
+[ERROR] [src/main/java/net/socialgamer/cah/data/Game.java:modified]
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

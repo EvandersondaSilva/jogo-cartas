@@ -29,7 +29,7 @@
  * @author Andy Janata (ajanata@socialgamer.net)
  */
 
-$(document).ready(function() {
+$(document).ready(function () {
   // Initialize the logger (i.e. the global chat tab) before anything needs it.
   cah.log.init();
 
@@ -70,14 +70,14 @@ $(document).ready(function() {
   app_resize();
 });
 
-$(window).focus(function() {
+$(window).focus(function () {
   cah.windowActive = true;
   if (cah.missedGameListRefresh) {
     cah.GameList.instance.update();
   }
 });
 
-$(window).blur(function() {
+$(window).blur(function () {
   cah.windowActive = false;
 });
 
@@ -88,6 +88,16 @@ $(window).blur(function() {
  *          e
  */
 function nickname_keyup(e) {
+  if ($.trim($("#nickname").val()) != "") {
+    $("#nicknameconfirm").removeAttr("disabled");
+    if (document.location.protocol == "https:" || cah.INSECURE_ID_ALLOWED) {
+      $("#idcode").removeAttr("disabled");
+    }
+  } else {
+    $("#nicknameconfirm").attr("disabled", "disabled");
+    $("#idcode").attr("disabled", "disabled");
+  }
+
   if (e.which == 13) {
     $("#nicknameconfirm").click();
     e.preventDefault();
@@ -118,7 +128,7 @@ function nicknameconfirm_click() {
  *          submitButton Submit button for the chat box.
  */
 function chat_keyup(submitButton) {
-  return function(e) {
+  return function (e) {
     if (e.which == 13) {
       $(submitButton).click();
       e.preventDefault();
@@ -137,7 +147,7 @@ function chat_keyup(submitButton) {
  *          "chat", which will be used to source the data.
  */
 function chatsubmit_click(game_id, parent_element) {
-  return function() {
+  return function () {
     var ajax = null;
 
     var text = $.trim($(".chat", parent_element).val());
@@ -167,7 +177,7 @@ function chatsubmit_click(game_id, parent_element) {
           clazz = 'admin';
         }
         cah.log.status_with_game(game_id, "<" + cah.sigil + cah.nickname + "> " + text, clazz,
-            false, cah.log.getTitleForIdCode(cah.idcode));
+          false, cah.log.getTitleForIdCode(cah.idcode));
         break;
       case 'me':
         if (game_id !== null) {
@@ -181,7 +191,7 @@ function chatsubmit_click(game_id, parent_element) {
           clazz = 'admin';
         }
         cah.log.status_with_game(game_id, "* " + cah.sigil + cah.nickname + " " + text, clazz,
-            false, cah.log.getTitleForIdCode(cah.idcode));
+          false, cah.log.getTitleForIdCode(cah.idcode));
         break;
       case 'wall':
         ajax = cah.Ajax.build(cah.$.AjaxOperation.CHAT).withWall(true).withMessage(text);
@@ -216,7 +226,7 @@ function chatsubmit_click(game_id, parent_element) {
       case 'addcardcast':
         if (game_id !== null) {
           ajax = cah.Ajax.build(cah.$.AjaxOperation.CARDCAST_ADD_CARDSET).withCardcastId(
-              text.split(' ')[0]).withGameId(game_id);
+            text.split(' ')[0]).withGameId(game_id);
         } else {
           cah.log.error("This command only works in a game.");
         }
@@ -224,7 +234,7 @@ function chatsubmit_click(game_id, parent_element) {
       case 'removecardcast':
         if (game_id !== null) {
           ajax = cah.Ajax.build(cah.$.AjaxOperation.CARDCAST_REMOVE_CARDSET).withCardcastId(
-              text.split(' ')[0]).withGameId(game_id);
+            text.split(' ')[0]).withGameId(game_id);
         } else {
           cah.log.error("This command only works in a game.");
         }
@@ -271,9 +281,9 @@ function logout_click() {
  */
 function preferences_click() {
   $("#preferences_dialog").dialog({
-    modal : true,
-    buttons : {
-      Ok : function() {
+    modal: true,
+    buttons: {
+      Ok: function () {
         save_preferences();
         $(this).dialog("close");
       }
@@ -302,14 +312,14 @@ function apply_preferences() {
 /**
  * Add selected items from sourceList to destList, ignoring duplicates.
  */
-cah.transferItems = function(sourceListId, destListId, idPrefix) {
-  cah.transferItems(sourceListId, destListId, idPrefix, function(a, b) {
+cah.transferItems = function (sourceListId, destListId, idPrefix) {
+  cah.transferItems(sourceListId, destListId, idPrefix, function (a, b) {
     return Number(a.value) - Number(b.value);
   });
 };
 
-cah.transferItems = function(sourceListId, destListId, idPrefix, sortFunc) {
-  $('#' + sourceListId + ' option').filter(':selected').each(function() {
+cah.transferItems = function (sourceListId, destListId, idPrefix, sortFunc) {
+  $('#' + sourceListId + ' option').filter(':selected').each(function () {
     var existing = $('#' + idPrefix + '_' + this.value);
     if (existing.length == 0) {
       cah.addItem(destListId, this.value, this.text, idPrefix);
@@ -332,9 +342,9 @@ cah.transferItems = function(sourceListId, destListId, idPrefix, sortFunc) {
  * @param idPrefix
  *          {String} The prefix for the id of the item to insert into the list.
  */
-cah.addItem = function(listId, value, text, idPrefix) {
+cah.addItem = function (listId, value, text, idPrefix) {
   $('#' + listId).append(
-      '<option value="' + value + '" id="' + idPrefix + '_' + value + '">' + text + '</option>');
+    '<option value="' + value + '" id="' + idPrefix + '_' + value + '">' + text + '</option>');
 };
 
 /**
@@ -343,8 +353,8 @@ cah.addItem = function(listId, value, text, idPrefix) {
  * @param listId
  *          {String} Id of the list from which to remove selected items.
  */
-cah.removeItems = function(listId) {
-  $('#' + listId + ' option').filter(':selected').each(function() {
+cah.removeItems = function (listId) {
+  $('#' + listId + ' option').filter(':selected').each(function () {
     this.parentElement.removeChild(this);
   });
 };
@@ -357,10 +367,10 @@ cah.removeItems = function(listId) {
  * @param {Any}
  *          value The value of the cookie.
  */
-cah.setCookie = function(name, value) {
+cah.setCookie = function (name, value) {
   return $.cookie(name, value, {
-    domain : cah.COOKIE_DOMAIN,
-    expires : 365
+    domain: cah.COOKIE_DOMAIN,
+    expires: 365
   });
 };
 
@@ -370,9 +380,9 @@ cah.setCookie = function(name, value) {
  * @param {String}
  *          name The name of the cookie.
  */
-cah.removeCookie = function(name) {
+cah.removeCookie = function (name) {
   $.removeCookie(name, {
-    domain : cah.COOKIE_DOMAIN
+    domain: cah.COOKIE_DOMAIN
   });
 };
 
@@ -383,7 +393,7 @@ cah.removeCookie = function(name) {
  *          name The name of the cookie.
  * @returns The value of the cookie, or {@code undefined} if the cookie is not set.
  */
-cah.getCookie = function(name) {
+cah.getCookie = function (name) {
   return $.cookie(name);
 };
 
@@ -407,7 +417,7 @@ function app_resize() {
   // global chat
   do_app_resize(chat, log);
   // per-game chats
-  for ( var id in cah.currentGames) {
+  for (var id in cah.currentGames) {
     chat = $(".chat", $("#tab-chat-game_" + id));
     log = $(".log", $("#tab-chat-game_" + id));
     do_app_resize(chat, log);
@@ -429,16 +439,16 @@ function do_app_resize(chatElement, logElement) {
   logElement.height(bottomHeight - chatElement.height() - 40);
 }
 
-cah.logUserPermalinks = function(data) {
+cah.logUserPermalinks = function (data) {
   var linkMsg = "";
   if (cah.$.AjaxResponse.SESSION_PERMALINK in data) {
     linkMsg += "<a href='" + data[cah.$.AjaxResponse.SESSION_PERMALINK]
-        + "'rel='noopener' target='_blank'>Permanent link to games you play this session.</a> ";
+      + "'rel='noopener' target='_blank'>Permanent link to games you play this session.</a> ";
   }
   if (cah.$.AjaxResponse.USER_PERMALINK in data && !cah.noPersistentId) {
     linkMsg += "<a href='"
-        + data[cah.$.AjaxResponse.USER_PERMALINK]
-        + "'rel='noopener' target='_blank'>Permanent link to every time you've played on this device.</a> ";
+      + data[cah.$.AjaxResponse.USER_PERMALINK]
+      + "'rel='noopener' target='_blank'>Permanent link to every time you've played on this device.</a> ";
   }
   if ("" != linkMsg) {
     cah.log.status(linkMsg, undefined, true);
