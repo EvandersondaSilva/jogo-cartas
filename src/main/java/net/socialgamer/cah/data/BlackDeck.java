@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 
+
 /**
  * Deck of Black Cards.
  *
@@ -51,6 +52,15 @@ public class BlackDeck {
       allCards.addAll(cardSet.getBlackCards());
     }
     deck = new ArrayList<BlackCard>(allCards);
+    Collections.shuffle(deck);
+    discard = new ArrayList<BlackCard>(deck.size());
+  }
+
+  /**
+   * Create a new black card deck from a pre-processed list of cards (e.g. translated cards).
+   */
+  public BlackDeck(final List<BlackCard> processedCards) {
+    deck = new ArrayList<BlackCard>(processedCards);
     Collections.shuffle(deck);
     discard = new ArrayList<BlackCard>(deck.size());
   }

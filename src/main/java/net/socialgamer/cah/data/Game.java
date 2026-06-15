@@ -33,6 +33,7 @@ import net.socialgamer.cah.data.GameManager.GameId;
 import net.socialgamer.cah.data.QueuedMessage.MessageType;
 import net.socialgamer.cah.metrics.Metrics;
 import net.socialgamer.cah.task.SafeTimerTask;
+import net.socialgamer.cah.util.TranslationService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -151,6 +152,7 @@ public class Game {
     private final ScheduledThreadPoolExecutor globalTimer;
     private final Provider<CardcastService> cardcastServiceProvider;
     private final Provider<String> uniqueIdProvider;
+    private final TranslationService translationService;
     private Player host;
     private BlackDeck blackDeck;
     private BlackCard blackCard;
@@ -190,7 +192,8 @@ public class Game {
             @ShowGamePermalink final Provider<Boolean> showGameLinkProvider,
             @GamePermalinkUrlFormat final Provider<String> gamePermalinkFormatProvider,
             @AllowBlankCards final Provider<Boolean> allowBlankCardsProvider,
-            final Provider<GameOptions> gameOptionsProvider) {
+            final Provider<GameOptions> gameOptionsProvider,
+            final TranslationService translationService) {
         this.id = id;
         this.options = gameOptionsProvider.get();
         this.connectedUsers = connectedUsers;
@@ -205,6 +208,7 @@ public class Game {
         this.showGameLinkProvider = showGameLinkProvider;
         this.gamePermalinkFormatProvider = gamePermalinkFormatProvider;
         this.allowBlankCardsProvider = allowBlankCardsProvider;
+        this.translationService = translationService;
 
         state = GameState.LOBBY;
     }
@@ -764,11 +768,55 @@ public class Game {
     }
 
     public BlackDeck loadBlackDeck(final List<CardSet> cardSets) {
-        return new BlackDeck(cardSets);
+        final Set<BlackCard> allCards = new HashSet<>();
+        for (final CardSet cardSet : cardSets) {
+            allCards.addAll(cardSet.getBlackCards());
+        }
+        final List<BlackCard> toTranslate = new ArrayList<>();
+        final List<BlackCard> keepOriginal = new ArrayList<>();
+        for (final BlackCard card : allCards) {
+            if (Math.random() < 0.5) {
+                toTranslate.add(card);
+            } else {
+                keepOriginal.add(card);
+            }
+        }
+        final List<String> texts = new ArrayList<>(toTranslate.size());
+        for (final BlackCard c : toTranslate) {
+            texts.add(c.getText());
+        }
+        final List<String> translated = translationService.translateBatch(texts, "pt-BR");
+        final List<BlackCard> processedCards = new ArrayList<>(keepOriginal);
+        for (int i = 0; i < toTranslate.size(); i++) {
+            processedCards.add(new TranslatedBlackCard(toTranslate.get(i), translated.get(i)));
+        }
+        return new BlackDeck(processedCards);
     }
 
     public WhiteDeck loadWhiteDeck(final List<CardSet> cardSets) {
-        return new WhiteDeck(options.maxBlankCardLimit, cardSets,
+        final Set<WhiteCard> allCards = new HashSet<>();
+        for (final CardSet cardSet : cardSets) {
+            allCards.addAll(cardSet.getWhiteCards());
+        }
+        final List<WhiteCard> toTranslate = new ArrayList<>();
+        final List<WhiteCard> keepOriginal = new ArrayList<>();
+        for (final WhiteCard card : allCards) {
+            if (Math.random() < 0.5) {
+                toTranslate.add(card);
+            } else {
+                keepOriginal.add(card);
+            }
+        }
+        final List<String> texts = new ArrayList<>(toTranslate.size());
+        for (final WhiteCard c : toTranslate) {
+            texts.add(c.getText());
+        }
+        final List<String> translated = translationService.translateBatch(texts, "pt-BR");
+        final List<WhiteCard> processedCards = new ArrayList<>(keepOriginal);
+        for (int i = 0; i < toTranslate.size(); i++) {
+            processedCards.add(new TranslatedWhiteCard(toTranslate.get(i), translated.get(i)));
+        }
+        return new WhiteDeck(options.maxBlankCardLimit, processedCards,
                 allowBlankCardsProvider.get() ? options.blanksInDeck : 0);
     }
 
@@ -787,12 +835,14 @@ public class Game {
                 return false;
             }
 
-            final BlackDeck tempBlackDeck = loadBlackDeck(cardSets);
+            // Use plain constructors here — no translation needed just for counting
+            final BlackDeck tempBlackDeck = new BlackDeck(cardSets);
             if (tempBlackDeck.totalCount() < MINIMUM_BLACK_CARDS) {
                 return false;
             }
 
-            final WhiteDeck tempWhiteDeck = loadWhiteDeck(cardSets);
+            final WhiteDeck tempWhiteDeck = new WhiteDeck(options.maxBlankCardLimit, cardSets,
+                    allowBlankCardsProvider.get() ? options.blanksInDeck : 0);
             if (tempWhiteDeck.totalCount() < getRequiredWhiteCardCount()) {
                 return false;
             }

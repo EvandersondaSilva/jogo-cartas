@@ -688,24 +688,35 @@ span.admin {
   position: absolute;
   left: 246px;
   top: 80px;
-  width: min(1000px, calc(100vw - 270px));
-  max-height: calc(100vh - 330px);
+  width: min(900px, calc(100vw - 270px));
+  /* #canvas is (100vh - 220px) tall and the chat bar (#bottom) is fixed over the
+     bottom 220px. Keep the panel inside the canvas, above the chat bar: the panel
+     starts at top:80px, so cap its height so it never extends behind the chat. */
+  max-height: calc(100vh - 316px);
   overflow-y: auto;
   box-sizing: border-box;
   background: var(--surface-glass);
   backdrop-filter: blur(20px);
-  z-index: 500;
-  padding: var(--space-xl);
+  z-index: 9000;
+  padding: var(--space-lg) var(--space-xl);
   border: 1px solid var(--glass-border-strong);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-deep);
 }
 
+.options_host_only {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  font-style: italic;
+}
+
 .game_options fieldset {
   border: 1px solid var(--purple-light);
   border-radius: var(--radius-md);
-  padding: var(--space-lg);
-  margin-bottom: var(--space-lg);
+  padding: var(--space-sm) var(--space-lg) var(--space-lg);
+  margin-bottom: 0;
   background: rgba(255, 255, 255, 0.4);
 }
 
@@ -713,9 +724,66 @@ span.admin {
   font-weight: 800;
   color: var(--purple);
   padding: 0 var(--space-sm);
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.options_row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  align-items: start;
+  gap: var(--space-xs) var(--space-lg);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid rgba(74, 66, 128, 0.08);
+}
+
+.options_row:last-child {
+  border-bottom: none;
+}
+
+.options_row_full {
+  grid-template-columns: 1fr;
+}
+
+.options_row > label {
+  font-weight: 700;
+  color: var(--purple);
+  font-size: 13px;
+  padding-top: 6px;
+  line-height: 1.3;
+}
+
+.options_control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.options_hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.options_password_hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.options_password_hint > label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--purple);
+  font-size: 13px;
+  padding-top: 0 !important;
 }
 
 .game_options select,
@@ -727,6 +795,32 @@ span.admin {
   padding: var(--space-xs) var(--space-sm);
   color: var(--text);
   font-family: var(--font-family);
+  font-size: 14px;
+  width: 100%;
+  max-width: 180px;
+  box-sizing: border-box;
+}
+
+.game_options input[type="text"].game_password,
+.game_options input[type="password"].game_fake_password {
+  max-width: 280px;
+}
+
+@media (max-width: 700px) {
+  .game_options {
+    left: 8px;
+    right: 8px;
+    width: auto;
+  }
+
+  .options_row {
+    grid-template-columns: 1fr;
+  }
+
+  .options_row > label {
+    padding-top: 0;
+    margin-bottom: 2px;
+  }
 }
 
 .game_right_side_box {

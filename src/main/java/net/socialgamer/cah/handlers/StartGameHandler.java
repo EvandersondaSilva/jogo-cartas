@@ -40,6 +40,7 @@ import net.socialgamer.cah.data.Game;
 import net.socialgamer.cah.data.GameManager;
 import net.socialgamer.cah.data.User;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.exception.JDBCConnectionException;
 
@@ -52,6 +53,8 @@ import com.google.inject.Inject;
  * @author Andy Janata (ajanata@socialgamer.net)
  */
 public class StartGameHandler extends GameWithPlayerHandler {
+
+  private static final Logger LOG = Logger.getLogger(StartGameHandler.class);
 
   public static final String OP = AjaxOperation.START_GAME.toString();
 
@@ -69,7 +72,14 @@ public class StartGameHandler extends GameWithPlayerHandler {
     final Map<ReturnableData, Object> data = new HashMap<ReturnableData, Object>();
 
     try {
-      if (game.getHost() != user) {
+      final User gameHost = game.getHost();
+      System.out.println("[DEBUG-NGH] sessionUser='" + user.getNickname() + "'@"
+          + System.identityHashCode(user) + ", gameHost='"
+          + (gameHost != null ? gameHost.getNickname() : "null") + "'@"
+          + System.identityHashCode(gameHost) + ", same=" + (gameHost == user)
+          + ", userGame=" + System.identityHashCode(user.getGame())
+          + ", game=" + System.identityHashCode(game));
+      if (gameHost != user) {
         return error(ErrorCode.NOT_GAME_HOST);
       } else if (game.getState() != GameState.LOBBY) {
         return error(ErrorCode.ALREADY_STARTED);

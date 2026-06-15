@@ -39,6 +39,7 @@ import javax.servlet.ServletContext;
 
 import com.google.inject.*;
 import net.socialgamer.cah.data.GameOptions;
+import net.socialgamer.cah.util.TranslationService;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
@@ -119,6 +120,7 @@ public class CahModule extends AbstractModule {
             });
     threadPool.setRemoveOnCancelPolicy(true);
     bind(ScheduledThreadPoolExecutor.class).toInstance(threadPool);
+    bind(TranslationService.class).in(Scopes.SINGLETON);
   }
 
   @Provides

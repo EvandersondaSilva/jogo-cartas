@@ -596,102 +596,124 @@
                           <div class="hide">
                             <div class="game_options" id="game_options_template">
                               <span class="options_host_only">Only the game host can change options.</span>
-                              <br /><br />
                               <fieldset>
                                 <legend>Game options:</legend>
-                                <label id="score_limit_template_label" for="score_limit_template">Score limit:</label>
-                                <select id="score_limit_template" class="score_limit">
-                                  <% for (int i=injector.getInstance(Key.get(Integer.class, MinScoreLimit.class)); i
-                                    <=injector.getInstance(Key.get(Integer.class, MaxScoreLimit.class)); i++) { %>
-                                    <option <%=(i==injector.getInstance(Key.get(Integer.class,
-                                      DefaultScoreLimit.class))) ? "selected='selected' " : "" %>value="<%= i %>"><%= i
-                                          %>
-                                    </option>
-                                    <% } %>
-                                </select>
-                                <br />
-                                <label id="player_limit_template_label" for="player_limit_template">Player
-                                  limit:</label>
-                                <select id="player_limit_template" class="player_limit" aria-label="Player limit.">
-                                  <% for (int i=injector.getInstance(Key.get(Integer.class, MinPlayerLimit.class)); i
-                                    <=injector.getInstance(Key.get(Integer.class, MaxPlayerLimit.class)); i++) { %>
-                                    <option <%=i==injector.getInstance(Key.get(Integer.class, DefaultPlayerLimit.class))
-                                      ? "selected='selected' " : "" %>value="<%= i %>"><%= i %>
-                                    </option>
-                                    <% } %>
-                                </select>
-                                Having more than 10 players may get cramped!
-                                <br />
-                                <label id="spectator_limit_template_label" for="spectator_limit_template">Spectator
-                                  limit:</label>
-                                <select id="spectator_limit_template" class="spectator_limit"
-                                  aria-label="Spectator limit.">
-                                  <% for (int i=injector.getInstance(Key.get(Integer.class, MinSpectatorLimit.class)); i
-                                    <=injector.getInstance(Key.get(Integer.class, MaxSpectatorLimit.class)); i++) { %>
-                                    <option <%=i==injector.getInstance(Key.get(Integer.class,
-                                      DefaultSpectatorLimit.class)) ? "selected='selected' " : "" %>value="<%= i %>"><%=
-                                          i %>
-                                    </option>
-                                    <% } %>
-                                </select>
-                                Spectators can watch and chat, but not actually play. Not even as Czar.
-                                <br />
-                                <label id="timer_multiplier_template_label" for="timer_multiplier_template"
-                                  title="Players will be skipped if they have not played within a reasonable amount of time.">Idle
-                                  timer multiplier:</label>
-                                <select id="timer_multiplier_template" class="timer_multiplier">
-                                  <option value="0.25x">0.25x</option>
-                                  <option value="0.5x">0.5x</option>
-                                  <option value="0.75x">0.75x</option>
-                                  <option selected="selected" value="1x">1x</option>
-                                  <option value="1.25x">1.25x</option>
-                                  <option value="1.5x">1.5x</option>
-                                  <option value="1.75x">1.75x</option>
-                                  <option value="2x">2x</option>
-                                  <option value="2.5x">2.5x</option>
-                                  <option value="3x">3x</option>
-                                  <option value="4x">4x</option>
-                                  <option value="5x">5x</option>
-                                  <option value="10x">10x</option>
-                                  <option value="Unlimited">Unlimited</option>
-                                </select>
-                                <br />
-                                <fieldset class="card_sets">
-                                  <legend>Card Sets</legend>
-                                  <span class="base_card_sets"></span>
-                                  <span class="extra_card_sets"></span>
-                                </fieldset>
+
+                                <div class="options_row">
+                                  <label id="score_limit_template_label" for="score_limit_template">Score limit</label>
+                                  <div class="options_control">
+                                    <select id="score_limit_template" class="score_limit">
+                                      <% for (int i=injector.getInstance(Key.get(Integer.class, MinScoreLimit.class)); i
+                                        <=injector.getInstance(Key.get(Integer.class, MaxScoreLimit.class)); i++) { %>
+                                        <option <%=(i==injector.getInstance(Key.get(Integer.class,
+                                          DefaultScoreLimit.class))) ? "selected='selected' " : "" %>value="<%= i %>"><%= i %>
+                                        </option>
+                                      <% } %>
+                                    </select>
+                                  </div>
+                                </div>
+
+                                <div class="options_row">
+                                  <label id="player_limit_template_label" for="player_limit_template">Player limit</label>
+                                  <div class="options_control">
+                                    <select id="player_limit_template" class="player_limit" aria-label="Player limit.">
+                                      <% for (int i=injector.getInstance(Key.get(Integer.class, MinPlayerLimit.class)); i
+                                        <=injector.getInstance(Key.get(Integer.class, MaxPlayerLimit.class)); i++) { %>
+                                        <option <%=i==injector.getInstance(Key.get(Integer.class, DefaultPlayerLimit.class))
+                                          ? "selected='selected' " : "" %>value="<%= i %>"><%= i %>
+                                        </option>
+                                      <% } %>
+                                    </select>
+                                    <span class="options_hint">Having more than 10 players may get cramped!</span>
+                                  </div>
+                                </div>
+
+                                <div class="options_row">
+                                  <label id="spectator_limit_template_label" for="spectator_limit_template">Spectator limit</label>
+                                  <div class="options_control">
+                                    <select id="spectator_limit_template" class="spectator_limit" aria-label="Spectator limit.">
+                                      <% for (int i=injector.getInstance(Key.get(Integer.class, MinSpectatorLimit.class)); i
+                                        <=injector.getInstance(Key.get(Integer.class, MaxSpectatorLimit.class)); i++) { %>
+                                        <option <%=i==injector.getInstance(Key.get(Integer.class,
+                                          DefaultSpectatorLimit.class)) ? "selected='selected' " : "" %>value="<%= i %>"><%= i %>
+                                        </option>
+                                      <% } %>
+                                    </select>
+                                    <span class="options_hint">Spectators can watch and chat, but not actually play. Not even as Czar.</span>
+                                  </div>
+                                </div>
+
+                                <div class="options_row">
+                                  <label id="timer_multiplier_template_label" for="timer_multiplier_template"
+                                    title="Players will be skipped if they have not played within a reasonable amount of time.">Idle timer</label>
+                                  <div class="options_control">
+                                    <select id="timer_multiplier_template" class="timer_multiplier">
+                                      <option value="0.25x">0.25x</option>
+                                      <option value="0.5x">0.5x</option>
+                                      <option value="0.75x">0.75x</option>
+                                      <option selected="selected" value="1x">1x</option>
+                                      <option value="1.25x">1.25x</option>
+                                      <option value="1.5x">1.5x</option>
+                                      <option value="1.75x">1.75x</option>
+                                      <option value="2x">2x</option>
+                                      <option value="2.5x">2.5x</option>
+                                      <option value="3x">3x</option>
+                                      <option value="4x">4x</option>
+                                      <option value="5x">5x</option>
+                                      <option value="10x">10x</option>
+                                      <option value="Unlimited">Unlimited</option>
+                                    </select>
+                                    <span class="options_hint">Players are skipped if they don't play in time.</span>
+                                  </div>
+                                </div>
+
+                                <div class="options_row options_row_full">
+                                  <fieldset class="card_sets">
+                                    <legend>Card Sets</legend>
+                                    <span class="base_card_sets"></span>
+                                    <span class="extra_card_sets"></span>
+                                  </fieldset>
+                                </div>
+
                                 <% if (allowBlankCards) { %>
-                                  <br />
-                                  <label id="blanks_limit_label"
-                                    title="Blank cards allow a player to type in their own answer.">
-                                    Also include <select id="blanks_limit_template" class="blanks_limit">
+                                <div class="options_row">
+                                  <label id="blanks_limit_label" for="blanks_limit_template"
+                                    title="Blank cards allow a player to type in their own answer.">Blank cards</label>
+                                  <div class="options_control">
+                                    <select id="blanks_limit_template" class="blanks_limit">
                                       <% for (int i=injector.getInstance(Key.get(Integer.class,
                                         MinBlankCardLimit.class)); i <=injector.getInstance(Key.get(Integer.class,
                                         MaxBlankCardLimit.class)); i++) { %>
                                         <option <%=i==injector.getInstance(Key.get(Integer.class,
-                                          DefaultBlankCardLimit.class)) ? "selected='selected' " : "" %>value="<%= i %>
-                                            "><%= i %>
+                                          DefaultBlankCardLimit.class)) ? "selected='selected' " : "" %>value="<%= i %>"><%= i %>
                                         </option>
-                                        <% } %>
-                                    </select> blank white cards.
-                                  </label>
-                                  <% } %>
-                                    <br />
-                                    <label id="game_password_template_label" for="game_password_template">Game
-                                      password:</label>
+                                      <% } %>
+                                    </select>
+                                    <span class="options_hint">Players can type their own answer on blank white cards.</span>
+                                  </div>
+                                </div>
+                                <% } %>
+
+                                <div class="options_row">
+                                  <label id="game_password_template_label" for="game_password_template">Password</label>
+                                  <div class="options_control">
                                     <input type="text" id="game_password_template"
                                       class="game_password input-sniffer-glass"
                                       aria-label="Game password. You must tab outside of the box to apply the password." />
                                     <input type="password" id="game_fake_password_template"
                                       class="game_fake_password hide" />
-                                    You must click outside the box to apply the password.
-                                    <input type="checkbox" id="game_hide_password_template"
-                                      class="game_hide_password" />
-                                    <label id="game_hide_password_template_label" for="game_hide_password_template"
-                                      aria-label="Hide password from your screen."
-                                      title="Hides the password from your screen, so people watching your stream can't see it.">Hide
-                                      password.</label>
+                                    <div class="options_password_hint">
+                                      <span>Click outside the box to apply.</span>
+                                      <label id="game_hide_password_template_label" for="game_hide_password_template"
+                                        aria-label="Hide password from your screen."
+                                        title="Hides the password from your screen, so people watching your stream can't see it.">
+                                        <input type="checkbox" id="game_hide_password_template" class="game_hide_password" />
+                                        Hide password
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
                               </fieldset>
                             </div>
                           </div>

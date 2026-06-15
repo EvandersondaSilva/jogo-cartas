@@ -60,6 +60,18 @@ public class WhiteDeck {
   }
 
   /**
+   * Create a new white card deck from a pre-processed list of cards (e.g. translated cards).
+   */
+  public WhiteDeck(int maxBlankCardLimit, final List<WhiteCard> processedCards, final int numBlanks) {
+    deck = new ArrayList<WhiteCard>(processedCards);
+    for (int i = 0; i < numBlanks && i < maxBlankCardLimit; i++) {
+      deck.add(createBlankCard());
+    }
+    Collections.shuffle(deck);
+    discard = new ArrayList<WhiteCard>(deck.size());
+  }
+
+  /**
    * Get the next card from the top of deck.
    *
    * @return The next card.

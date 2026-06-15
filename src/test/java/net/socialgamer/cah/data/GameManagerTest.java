@@ -183,15 +183,15 @@ public class GameManagerTest {
     assertEquals(0, gameManager.get().intValue());
     gameManager.getGames().put(0,
         new Game(0, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
-            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider));
+            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider, null));
     assertEquals(1, gameManager.get().intValue());
     gameManager.getGames().put(1,
         new Game(1, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
-            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider));
+            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider, null));
     assertEquals(2, gameManager.get().intValue());
     gameManager.getGames().put(2,
         new Game(2, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
-            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider));
+            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider, null));
     // make sure it says it can't make any more
     assertEquals(-1, gameManager.get().intValue());
 
@@ -201,7 +201,7 @@ public class GameManagerTest {
     assertEquals(1, gameManager.get().intValue());
     gameManager.getGames().put(1,
         new Game(1, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
-            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider));
+            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider, null));
     assertEquals(-1, gameManager.get().intValue());
 
     // remove game 1 out from under it, to make sure it'll fix itself
@@ -209,7 +209,7 @@ public class GameManagerTest {
     assertEquals(1, gameManager.get().intValue());
     gameManager.getGames().put(1,
         new Game(1, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
-            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider));
+            formatProvider, falseProvider, formatProvider, falseProvider, gameOptionsProvider, null));
     assertEquals(-1, gameManager.get().intValue());
 
     gameManager.destroyGame(2);
